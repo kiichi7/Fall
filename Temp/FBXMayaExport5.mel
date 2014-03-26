@@ -1,0 +1,22 @@
+print "Starting maya loading and fbx conversion \n";
+			
+if (`file -q -exists "D:/Unity3D/Fall/Assets/leaves/model/l1.mb"`)
+{
+	file -o "D:/Unity3D/Fall/Assets/leaves/model/l1.mb";
+	FBXExportEmbeddedTextures -v false;
+	// FBXExportHardEdges -v true;
+	FBXExportApplyConstantKeyReducer -v false;
+	FBXExportShowUI -v false;
+
+	print "Before fbx export\n";
+	FBXExport -f "D:/Unity3D/Fall/Temp/ExportedFBXFile.fbx";
+	print "after fbx export\n";
+}
+else
+	print "Could not open Maya file.";
+
+system ("del \"D:\\Unity3D\\Fall\\Temp\\CommandPipe\"");
+
+$donepipeKill = `fopen "D:/Unity3D/Fall/Temp/SyncPipeKill" "w"`;
+fwrite $donepipeKill "Done";
+fclose $donepipeKill;
